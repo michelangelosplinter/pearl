@@ -1,0 +1,118 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffffff;
+    background-size: cover;
+    background-attachment: fixed;
+}
+#main-container {
+    /* Vanity */
+    background-color: #ffffffa7;
+
+    /* Position and size */
+    position: absolute;
+    height: 98vh;
+    width: 99vw;
+    border-radius: 5px;
+
+    /* Child Control*/
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    place-content: top;
+    overflow: hidden;
+}
+#buttons-container {
+    /* Vanity */
+    background: #ffffff;
+
+    /* Position and size */
+    position: absolute;
+    top: 0%;
+    height: 8vh;
+    width: 99vw;
+
+    /* Child Control*/
+    display: inline-flex;
+    flex-direction: rows;
+    align-items: center;
+    place-content: center;
+    
+}
+button.Top-Buttons {
+    /* Vanity */
+    background-color: inherit;
+    border: none;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.151);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 20px;
+    font-weight: 700;
+
+
+    /* Position and size */
+    position: relative;
+    height: 100%;
+    width: 25vw;
+    
+}
+button.Top-Buttons:hover  {
+    background-color: #e6e5e560;
+}
+button.Top-Buttons:active  {
+    background: linear-gradient(to right,#ffffff, #00c3ff, #fb00dd, #ffffff);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+#content-container {
+    /* Vanity */
+    background-image: url('background.jpeg');
+
+    /* Position and size */
+    position: absolute;
+    height: 90vh;
+    width: 99vw;
+    bottom: 0%;
+}
+#side-bar {
+    /* Vanity */
+    background-color: #7b7b7bca;
+
+    /* Position and size */
+    position: absolute;
+    height: 100%;
+    width: 25%;
+    left: 0;
+    bottom: 0;
+
+    /* Child Control*/
+    display: inline-flex;
+    flex-direction: column;
+    align-items: top;
+    place-content: top;
+}
+#info-container {
+    /* Position and size */
+    position: absolute;
+    height: 100%;
+    width: 75%;
+    right: 0;
+    bottom: 0;
+}
+button.user-button {
+    /* Vanity */
+    border: none;
+    background-color: #cfcfcfca;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #242424ca;
+
+    /* Position and size */
+    position: relative;
+    height: 7%;
+    margin: 7px;
+    border-radius: 5px;
+}
