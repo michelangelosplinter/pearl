@@ -37,10 +37,7 @@ body {
 
     /* Child Control*/
     display: inline-flex;
-    flex-direction: rows;
-    align-items: center;
-    place-content: center;
-    
+    flex-direction: row-reverse;    
 }
 button.Top-Buttons {
     /* Vanity */
@@ -51,11 +48,10 @@ button.Top-Buttons {
     font-size: 20px;
     font-weight: 700;
 
-
     /* Position and size */
     position: relative;
     height: 100%;
-    width: 25vw;
+    width: 20vw;
     
 }
 button.Top-Buttons:hover  {
@@ -69,6 +65,8 @@ button.Top-Buttons:active  {
 #content-container {
     /* Vanity */
     background-image: url('background.jpeg');
+    background-size: cover;
+    background-attachment: fixed;
 
     /* Position and size */
     position: absolute;
@@ -77,13 +75,13 @@ button.Top-Buttons:active  {
     bottom: 0%;
 }
 #side-bar {
-    /* Vanity */
-    background-color: #7b7b7bca;
+    /*Vanity*/
+    background-color: #ffffff9a;
 
     /* Position and size */
     position: absolute;
     height: 100%;
-    width: 25%;
+    width: 19vw;
     left: 0;
     bottom: 0;
 
@@ -104,15 +102,23 @@ button.Top-Buttons:active  {
 button.user-button {
     /* Vanity */
     border: none;
-    background-color: #cfcfcfca;
+    background-color: #ffffffee;
     font-family: "IBM Plex Mono", monospace;
     font-size: 20px;
     font-weight: 700;
-    color: #242424ca;
+    color: #000000ca;
+    
 
     /* Position and size */
     position: relative;
     height: 7%;
     margin: 7px;
     border-radius: 5px;
+}
+button.user-button:hover  {
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.151);
+
+}
+button.user-button:active  {
+    background-color: #c4c1c1;
 }
