@@ -1,68 +1,49 @@
+:root {
+    --side-bar-width: 20%;
+    --bg-color: #ebebebd3;
+    --secondary-color: #e9e9e9;
+    --button-hover-color: #cccccc;
+}
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #ffffff;
+    background-color: var(--bg-color);
     background-size: cover;
     background-attachment: fixed;
+    font-family: 'Ariel', monospace;
 }
-#main-container {
-    /* Vanity */
-    background-color: #ffffffa7;
 
-    /* Position and size */
-    position: absolute;
-    height: 98vh;
-    width: 99vw;
+/* SCROLLBAR */
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
     border-radius: 5px;
+}
 
-    /* Child Control*/
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    place-content: top;
-    overflow: hidden;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
-#buttons-container {
-    /* Vanity */
-    background: #ffffff;
 
-    /* Position and size */
-    position: absolute;
-    top: 0%;
-    height: 8vh;
-    width: 99vw;
+/* END OF SCROLLBAR */
 
-    /* Child Control*/
-    display: inline-flex;
-    flex-direction: row-reverse;    
-}
-button.Top-Buttons {
-    /* Vanity */
-    background-color: inherit;
-    border: none;
-    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.151);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 20px;
-    font-weight: 700;
-
-    /* Position and size */
-    position: relative;
-    height: 100%;
-    width: 20vw;
-    
-}
-button.Top-Buttons:hover  {
-    background-color: #e6e5e560;
-}
-button.Top-Buttons:active  {
-    background: linear-gradient(to right,#ffffff, #00c3ff, #fb00dd, #ffffff);
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-}
-#content-container {
+/* This element is used to control the placements a siez of the sidebar and the item content section. */
+.flex-container {
     /* Vanity */
     background-image: url('background.jpeg');
     background-size: cover;
@@ -70,55 +51,157 @@ button.Top-Buttons:active  {
 
     /* Position and size */
     position: absolute;
+    height: 99vh;
+    width: 99vw;
+    border-radius: 10px;
+
+    /* Child Control */
+    display: "flex";
+    flex-direction: "row";
+
+    /* Scroll Control */
+    overflow: hidden;
+}
+
+.sidebar {
+    /* Vanity */
+    background-color: var(--bg-color);
+
+    /* Position and size */
+    height: 100%;
+    width: var(--side-bar-width);
+
+    /* Child Control */
+    display: flex;
+    flex-direction: column;
+}
+
+.filters {
+    /* Position & Size */
+    width: 100%;
+    padding: 1%;
+    padding-inline: 2%;
+
+    /* Child Control */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2%;
+    row-gap: 3px;
+
+    /* Vanity */
+
+}
+
+.filters>p {
+    font-weight: bold;
+    width: 100%;
+}
+
+.filters>button {
+    /* Vanity */
+    background-color: var(--secondary-color);
+    border: solid 1px black;
+    border-radius: 5px;
+    font-family: "Ariel", monospace;
+    font-size: large;
+    font-weight: 300;
+
+    /* Position and size */
+    padding-inline: 5% 1% 5% 1%;
+}
+
+.filters>button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.filters>button:active {
+    background: linear-gradient(to right, #ffffff, #00c3ff, #fb00dd, #ffffff);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+
+/* This elemnt will house the ldap items that we got from the backend and will allow filtering by type. */
+.enumerated-items {
+    /* Size & Position */
+    height: max-content;
+
+    /* Child Control */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2px;
+
+    /* Scrolling Behavior */
+    overflow: auto;
+    gap: 5px;
+}
+
+.enumerated-items>button {
+    /* Vanity */
+    border: none;
+    background-color: var(--secondary-color);
+    font-family: "Ariel", monospace;
+    border: solid 1px rgb(194, 194, 194);
+    font-weight: 600;
+    padding: 10px 10px 10px 10px;
+    /*box-shadow: 1px 1px 3px rgb(0, 0, 0);*/
+
+
+    /* Position and size */
+    border-radius: 5px;
+}
+
+.enumerated-items>button.user {
+    background-image: url("./svg/user.svg");
+    background-position: 0%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 5px 5px 5px 27px;
+}
+
+.enumerated-items>button.computer {
+    background-image: url("./svg/computer.svg");
+    background-position: 0%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 5px 5px 5px 27px;
+}
+
+.enumerated-items>button.group {
+    background-image: url("./svg/group.svg");
+    background-position: 2px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 5px 5px 5px 30px;
+}
+
+.enumerated-items>button.dc {
+    background-image: url("./svg/server.svg");
+    background-position: 0%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 5px 5px 5px 27px;
+}
+
+.enumerated-items>button:hover {
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.151);
+}
+
+.enumerated-items>button:active {
+    background-color: #c4c1c1;
+}
+
+#content-container {
+    /* Position and size */
+    position: absolute;
     height: 90vh;
     width: 99vw;
     bottom: 0%;
-}
-#side-bar {
-    /*Vanity*/
-    background-color: #ffffff9a;
-
-    /* Position and size */
-    position: absolute;
-    height: 100%;
-    width: 19vw;
-    left: 0;
-    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 
     /* Child Control*/
-    display: inline-flex;
-    flex-direction: column;
-    align-items: top;
-    place-content: top;
-}
-#info-container {
-    /* Position and size */
-    position: absolute;
-    height: 100%;
-    width: 75%;
-    right: 0;
-    bottom: 0;
-}
-button.user-button {
-    /* Vanity */
-    border: none;
-    background-color: #ffffffee;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 20px;
-    font-weight: 700;
-    color: #000000ca;
-    
-
-    /* Position and size */
-    position: relative;
-    height: 7%;
-    margin: 7px;
-    border-radius: 5px;
-}
-button.user-button:hover  {
-    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.151);
-
-}
-button.user-button:active  {
-    background-color: #c4c1c1;
+    overflow: hidden;
 }
