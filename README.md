@@ -1,2 +1,1 @@
-# pearl
-A Fun Domain Enumerator
+<img src="resources/pearl_logo.png">
