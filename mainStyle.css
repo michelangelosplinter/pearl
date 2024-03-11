@@ -1,7 +1,8 @@
 :root {
     --side-bar-width: 20%;
-    --bg-color: #ebebebd3;
+    --bg-color: #f2f2f2d3;
     --secondary-color: #e9e9e9;
+    --content-color: #e3e2e29f;
     --button-hover-color: #cccccc;
 }
 
@@ -45,9 +46,10 @@ body {
 /* This element is used to control the placements a siez of the sidebar and the item content section. */
 .flex-container {
     /* Vanity */
-    background-image: url('background.jpeg');
+    background-image: url('resources/background.jpeg');
     background-size: cover;
     background-attachment: fixed;
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.151);
 
     /* Position and size */
     position: absolute;
@@ -56,8 +58,8 @@ body {
     border-radius: 10px;
 
     /* Child Control */
-    display: "flex";
-    flex-direction: "row";
+    display: flex;
+    flex-direction: row;
 
     /* Scroll Control */
     overflow: hidden;
@@ -88,9 +90,6 @@ body {
     flex-wrap: wrap;
     gap: 2%;
     row-gap: 3px;
-
-    /* Vanity */
-
 }
 
 .filters>p {
@@ -101,7 +100,8 @@ body {
 .filters>button {
     /* Vanity */
     background-color: var(--secondary-color);
-    border: solid 1px black;
+    color: rgb(147, 147, 147);
+    border: solid 1px rgb(194, 194, 194);
     border-radius: 5px;
     font-family: "Ariel", monospace;
     font-size: large;
@@ -124,14 +124,11 @@ body {
 
 /* This elemnt will house the ldap items that we got from the backend and will allow filtering by type. */
 .enumerated-items {
-    /* Size & Position */
-    height: max-content;
-
     /* Child Control */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 2px;
+    padding: 10px;
 
     /* Scrolling Behavior */
     overflow: auto;
@@ -140,7 +137,6 @@ body {
 
 .enumerated-items>button {
     /* Vanity */
-    border: none;
     background-color: var(--secondary-color);
     font-family: "Ariel", monospace;
     border: solid 1px rgb(194, 194, 194);
@@ -154,7 +150,7 @@ body {
 }
 
 .enumerated-items>button.user {
-    background-image: url("./svg/user.svg");
+    background-image: url("./resources/user.svg");
     background-position: 0%;
     background-repeat: no-repeat;
     background-size: contain;
@@ -162,7 +158,7 @@ body {
 }
 
 .enumerated-items>button.computer {
-    background-image: url("./svg/computer.svg");
+    background-image: url("./resources/computer.svg");
     background-position: 0%;
     background-repeat: no-repeat;
     background-size: contain;
@@ -170,7 +166,7 @@ body {
 }
 
 .enumerated-items>button.group {
-    background-image: url("./svg/group.svg");
+    background-image: url("./resources/group.svg");
     background-position: 2px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -178,7 +174,7 @@ body {
 }
 
 .enumerated-items>button.dc {
-    background-image: url("./svg/server.svg");
+    background-image: url("./resources/server.svg");
     background-position: 0%;
     background-repeat: no-repeat;
     background-size: contain;
@@ -193,15 +189,92 @@ body {
     background-color: #c4c1c1;
 }
 
-#content-container {
+.main-container {
     /* Position and size */
-    position: absolute;
-    height: 90vh;
-    width: 99vw;
-    bottom: 0%;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    height: 100%;
+    width: 80%;
 
-    /* Child Control*/
-    overflow: hidden;
+    /* Child Control */
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    place-content: center;
+}
+
+.content-container {
+    /* Vanity */
+    background-color: var(--content-color);
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.151);
+
+    /* Position and size */
+    height: 95%;
+    width: 95%;
+    border-radius: 15px;
+
+    /* Child Control */
+    display: inline-flex;
+    flex-direction: column;
+    place-content: center;
+    align-items: center;
+}
+
+.sub-container {
+    /* Position and size */
+    height: 80%;
+    width: 80%;
+
+    display: inline-flex;
+    flex-direction: column;
+    place-content: top;
+
+    /* Child Control */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2%;
+    row-gap: 3px;
+}
+
+.name-attrib {
+    /* Vanity */
+    background-color: var(--bg-color);
+    box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.151);
+    font-family: "Ariel", monospace;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: left;
+
+    /* Position & Size */
+    padding: 10px;
+    align-self: baseline;   
+}
+
+.attrib-container {
+    /* Position & Size */
+    height: 75%;
+
+    /* Child Control */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+
+    /* Scrolling Behavior */
+    overflow: auto;
+    gap: 5px;
+}
+
+.attribute {
+    /* Vanity */
+    background-color: var(--bg-color);
+    box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.151);
+    font-family: "Ariel", monospace;
+
+    /* Position & Size */
+    padding: 10px;
+    align-self: baseline;
+    position: relative;
+    align-self: center;
+    width: 100%;
+    margin-bottom: 10px;
 }
