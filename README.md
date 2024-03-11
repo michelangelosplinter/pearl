@@ -1,1 +1,1 @@
-<img src="resources/pearl_logo.png">
+<img src="https://github.com/michelangelosplinter/pearl/blob/main/Resources/Pearl_Logo.png">
