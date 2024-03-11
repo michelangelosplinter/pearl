@@ -1,6 +1,6 @@
 "use strict";
 
-function createLoading() {
+function createLoading(err) {
     /** 
      * This Function handles the first stage of the submit button 
      * event handling. It Edits The DOM Elements to Create The login 
@@ -12,23 +12,53 @@ function createLoading() {
     fields.forEach(field => {
         field.remove();
     });
-    document.getElementById("errmsg").remove();
+    err.remove();
 
     // Create loading screen elements
     let img = document.createElement('img');
     img.src = 'resources/LoadingGif.gif';
     img.height = "100";
+    img.classList.add("loading");
+
     let loading = document.createElement('h4');
     loading.textContent = "  Loading ..."
     loading.style.fontFamily = "'IBM Plex Mono', monospace";
     loading.height = "70";
     loading.style.fontSize = "20px";
+    loading.classList.add("loading");
 
     // Add The created DOM Elements
     document.getElementById('maincontainer').appendChild(img);
     document.getElementById('maincontainer').appendChild(loading);
     
     return;
+}
+
+
+function restoreForum(domain, dns, username, password, errMsg, enumBtn) {
+    
+    let fields = document.querySelectorAll('.loading');
+    fields.forEach(field => {
+        field.remove();
+    });
+
+    // Adding elements to class
+
+    // restoring elemt
+    let father = document.querySelector('.inputcontrol')
+    father.appendChild(errMsg)
+    father.appendChild(domain)
+    father.appendChild(dns)
+    father.appendChild(username)
+    father.appendChild(password)
+    father.appendChild(enumBtn)
+
+    fields = document.querySelectorAll('.to-disappear');
+    fields.forEach(field => {
+        if (field.id != "button") {
+            field.value = "";
+        }
+    });
 }
 
 
@@ -45,6 +75,11 @@ function checkCredentials(username, password) {
 }
 
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 function main() {
 
     // Waiting for Enumerate Button to be pressed
@@ -55,10 +90,12 @@ function main() {
         e.preventDefault();
 
         // Get Values Of Input Fields
-        let domain = document.getElementById("domain");
-        let dns = document.getElementById("dns");
-        let username = document.getElementById("username");
-        let password = document.getElementById("password");
+        const domain = document.getElementById("domain");
+        const dns = document.getElementById("dns");
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const errMsg = document.getElementById("errmsg");
+        const enumBtn = document.getElementById("button");
 
         // Log Input Fields To The Console
         console.log(domain.value);
@@ -67,7 +104,7 @@ function main() {
         console.log(password.value);
 
         //console.log("checking credentials");
-        createLoading()
+        createLoading(errMsg)
         checkCredentials(username, password)
         .then(
             (response) => {
@@ -77,22 +114,16 @@ function main() {
                 // on the current location
                 const absoluteURL = new URL(relativeURL, window.location.href);
 
-                // Log the absolute URL (optional)
-                //console.log('Redirecting to:', absoluteURL.href);
-
-                // Redirect to the absolute URL
-                //console.log("Starting redirect");
-                window.location.href = absoluteURL.href;// Redirect to results page
+                sleep(3000).then(() => {
+                    // Redirect to the absolute URL
+                    window.location.href = absoluteURL.href;// Redirect to results page
+                    restoreForum(domain, dns, username, password, errMsg, enumBtn)
+                });
             }
         )
         .catch(
             (err) => {
-                // Reseting fields
-                domain.value = ""
-                dns.value = ""
-                username.value = ""
-                password.value = ""
-
+                restoreForum(domain, dns, username, password, errMsg, enumBtn)
                 // Showing error message
                 document.getElementById("errmsg").textContent = err;
             }

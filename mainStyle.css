@@ -205,6 +205,8 @@ body {
     /* Vanity */
     background-color: var(--content-color);
     box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.151);
+    /*visibility: hidden;*/
+
 
     /* Position and size */
     height: 95%;
@@ -219,6 +221,7 @@ body {
 }
 
 .sub-container {
+
     /* Position and size */
     height: 80%;
     width: 80%;

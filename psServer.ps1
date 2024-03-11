@@ -1,46 +1,98 @@
-﻿$endpoint = new-object System.Net.IPEndPoint([ipaddress]::any, 1235) 
-$listener = new-object System.Net.Sockets.TcpListener $EndPoint
-while (1) {
-  $listener.start()
-  $data = $listener.AcceptTcpClient() # will block here until connection 
-  $bytes = New-Object System.Byte[] 1024
-  $stream = $data.GetStream()
-  try {
-    while (($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0) {
-      Write-host "[+] Connection started ..."
-      $EncodedText = New-Object System.Text.ASCIIEncoding
-      $data = $EncodedText.GetString($bytes, 0, $i)
-      Write-Host $data
-    }
-  }
-  catch {
-    Write-Host "[-] Connection closed "
-  }
-}
-$stream.close()
-$listener.stop()
+﻿function New-ScriptBlockCallback 
+    {
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
+        param(
+            [parameter(Mandatory)]
+            [ValidateNotNullOrEmpty()]
+            [scriptblock]$Callback
+        )
 
-function Get-ADData {
-  # Fuck you N***a
-  param(
-    [string]$username,
-    [string]$password
-  )
-  
-  # Converting credentials to secure string
-  $SecureString = ConvertTo-SecureString $password -AsPlainText -Force
-  $credential = New-Object System.Management.Automation.PSCredential( $username, $SecureString )
-  
-  # Creating a background thread
-  Enter-PSSession -Computername localhost -Credential $credential
-  Get-localuser | select-Object -Property Name, fullname, sid, description, lastlogon | ConvertTo-Json -depth 1  > "1.json"
-  Get-localgroup | select-Object -Property Name, fullname, sid, description, lastlogon | ConvertTo-Json -depth 1  > "2.json"
-  Exit-PSSession
-  
-  if (Test-Path -Path "1.json", "2.json" -PathType leaf) {
-    return 1
-  }
-  else {
-    return 0
-  }
+        # Is this type already defined?
+        if (-not ( 'CallbackEventBridge' -as [type])) {
+            Add-Type @' 
+                using System; 
+
+                public sealed class CallbackEventBridge { 
+                    public event AsyncCallback CallbackComplete = delegate { }; 
+
+                    private CallbackEventBridge() {} 
+
+                    private void CallbackInternal(IAsyncResult result) { 
+                        CallbackComplete(result); 
+                    } 
+
+                    public AsyncCallback Callback { 
+                        get { return new AsyncCallback(CallbackInternal); } 
+                    } 
+
+                    public static CallbackEventBridge Create() { 
+                        return new CallbackEventBridge(); 
+                    } 
+                } 
+'@
+        }
+        $bridge = [callbackeventbridge]::create()
+        Register-ObjectEvent -InputObject $bridge -EventName callbackcomplete -Action $Callback -MessageData $args > $null
+        $bridge.Callback
+    }
+
+
+
+$listener = New-Object System.Net.HttpListener
+$listener.Prefixes.Add('http://127.0.0.1:8081/') 
+$listener.Start()
+Write-host 'Listening'
+
+$StartServiceTime = Get-Date
+
+$requestListener = {
+            [cmdletbinding()]
+            param($result)
+
+            [System.Net.HttpListener]$listener = $result.AsyncState;
+
+            $context = $listener.EndGetContext($result);
+            $request = $context.Request
+            $response = $context.Response
+
+            # Add cors header.
+            $context.Response.AppendHeader("mode", "cors")
+            $context.Response.AppendHeader("Access-Control-Allow-Origin", "*")
+            $context.Response.AppendHeader("Access-Control-Allow-Headers", "*")
+            $context.Response.AppendHeader("Access-Control-Allow-Methods", "GET,POST")
+
+            if ($request.Url -match '/users') 
+                {
+                    write-host "Sending user data"
+                    $context.Response.StatusCode = 200
+                    $context.Response.ContentType = "application/json"
+                    $message = Get-localuser | select-Object -Property Name, fullname, sid, description, lastlogon | ConvertTo-Json -depth 1
+                }
+            Elseif ($request.Url -match '/groups')
+                {
+                    write-host "Sending user data"
+                    $context.Response.StatusCode = 200
+                    $context.Response.ContentType = "application/json"
+                    $message = Get-localGroup | convertto-json -depth 1
+                }
+
+            [byte[]]$buffer = [System.Text.Encoding]::UTF8.GetBytes($message)
+            $response.ContentLength64 = $buffer.length
+            $output = $response.OutputStream
+            $output.Write($buffer, 0, $buffer.length)
+            $output.Close()
+
+    }  
+
+
+$context = $listener.BeginGetContext((New-ScriptBlockCallback -Callback $requestListener), $listener)
+
+
+while ($listener.IsListening)
+{
+    If ($context.IsCompleted -eq $true) {$context = $listener.BeginGetContext((New-ScriptBlockCallback -Callback $requestListener), $listener)}
 }
+
+
+$listener.Close()
+Write-host 'Terminating ...'
