@@ -25,4 +25,5 @@ The front-end and the back-end talk using an implementation of Rest API (or rest
 **<h2>Javascript Front-End</h2>**
 
 <img width=100 align="right" src="https://github.com/michelangelosplinter/pearl/assets/143991999/f3938da8-75c0-4178-b595-f39be213fd25">
->
+
+The Javascript front-end fetches json data from the back-end and uses as data in the Gui. However, the main thing that the JS does is creating and managing the Gui 
