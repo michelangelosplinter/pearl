@@ -28,6 +28,7 @@ body {
 /* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
+    border-radius: 5px;
 }
 
 /* Handle */
@@ -78,7 +79,8 @@ body {
     flex-direction: column;
 }
 
-.filters {
+.filters,
+.current-filters {
     /* Position & Size */
     width: 100%;
     padding: 1%;
@@ -92,12 +94,14 @@ body {
     row-gap: 3px;
 }
 
-.filters>p {
+.filters>p,
+.current-filters>p {
     font-weight: bold;
     width: 100%;
 }
 
-.filters>button {
+.filters>button,
+.current-filters>button {
     /* Vanity */
     background-color: var(--secondary-color);
     color: rgb(147, 147, 147);
@@ -111,11 +115,13 @@ body {
     padding-inline: 5% 1% 5% 1%;
 }
 
-.filters>button:hover {
+.filters>button:hover,
+.current-filters>button:hover {
     background-color: var(--button-hover-color);
 }
 
-.filters>button:active {
+.filters>button:active,
+.current-filters>button:active {
     background: linear-gradient(to right, #ffffff, #00c3ff, #fb00dd, #ffffff);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -149,36 +155,40 @@ body {
     border-radius: 5px;
 }
 
-.enumerated-items>button.user {
+.enumerated-items>button.btnUsers {
     background-image: url("./resources/user.svg");
     background-position: 0%;
     background-repeat: no-repeat;
     background-size: contain;
     padding: 5px 5px 5px 27px;
+    visibility: hidden;
 }
 
-.enumerated-items>button.computer {
+.enumerated-items>button.btnComputers {
     background-image: url("./resources/computer.svg");
     background-position: 0%;
     background-repeat: no-repeat;
     background-size: contain;
     padding: 5px 5px 5px 27px;
+    visibility: hidden;
 }
 
-.enumerated-items>button.group {
+.enumerated-items>button.btnGroups {
     background-image: url("./resources/group.svg");
     background-position: 2px;
     background-repeat: no-repeat;
     background-size: contain;
     padding: 5px 5px 5px 30px;
+    visibility: hidden;
 }
 
-.enumerated-items>button.dc {
+.enumerated-items>button.btnDC {
     background-image: url("./resources/server.svg");
     background-position: 0%;
     background-repeat: no-repeat;
     background-size: contain;
     padding: 5px 5px 5px 27px;
+    visibility: hidden;
 }
 
 .enumerated-items>button:hover {
@@ -205,7 +215,7 @@ body {
     /* Vanity */
     background-color: var(--content-color);
     box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.151);
-    /*visibility: hidden;*/
+    visibility: hidden;
 
 
     /* Position and size */
@@ -249,7 +259,7 @@ body {
 
     /* Position & Size */
     padding: 10px;
-    align-self: baseline;   
+    align-self: baseline;
 }
 
 .attrib-container {

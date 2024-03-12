@@ -39,50 +39,68 @@
 
 
 $listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add('http://127.0.0.1:8081/') 
+$listener.Prefixes.Add('http://127.0.0.1:8089/') 
 $listener.Start()
 Write-host 'Listening'
 
 $StartServiceTime = Get-Date
 
 $requestListener = {
-            [cmdletbinding()]
-            param($result)
+    [cmdletbinding()]
+    param($result)
 
-            [System.Net.HttpListener]$listener = $result.AsyncState;
+    [System.Net.HttpListener]$listener = $result.AsyncState;
 
-            $context = $listener.EndGetContext($result);
-            $request = $context.Request
-            $response = $context.Response
+    $context = $listener.EndGetContext($result);
+    $request = $context.Request
+    $response = $context.Response
 
-            # Add cors header.
-            $context.Response.AppendHeader("mode", "cors")
-            $context.Response.AppendHeader("Access-Control-Allow-Origin", "*")
-            $context.Response.AppendHeader("Access-Control-Allow-Headers", "*")
-            $context.Response.AppendHeader("Access-Control-Allow-Methods", "GET,POST")
+    # Add cors header.
+    $context.Response.AppendHeader("mode", "cors")
+    $context.Response.AppendHeader("Access-Control-Allow-Origin", "*")
+    $context.Response.AppendHeader("Access-Control-Allow-Credentials", "true")
+    $context.Response.AppendHeader("Access-Control-Allow-Headers", "*")
+    $context.Response.AppendHeader("Access-Control-Allow-Methods", "GET, POST")
 
-            if ($request.Url -match '/users') 
-                {
-                    write-host "Sending user data"
-                    $context.Response.StatusCode = 200
-                    $context.Response.ContentType = "application/json"
-                    $message = Get-localuser | select-Object -Property Name, fullname, sid, description, lastlogon | ConvertTo-Json -depth 1
-                }
-            Elseif ($request.Url -match '/groups')
-                {
-                    write-host "Sending user data"
-                    $context.Response.StatusCode = 200
-                    $context.Response.ContentType = "application/json"
-                    $message = Get-localGroup | convertto-json -depth 1
-                }
+    if ($request.Url -match '/users') 
+        {
+            write-host ("[" + $request.Url + "]")
+            $context.Response.StatusCode = 200
+            $context.Response.ContentType = "application/json"
+            $message = Get-localuser | select-Object -Property Name, fullname, sid, description, lastlogon | ConvertTo-Json -depth 1
+        }
+    Elseif ($request.Url -match '/groups')
+        {
+            write-host ("[" + $request.Url + "]")
+            
+            $context.Response.StatusCode = 200
+            $context.Response.ContentType = "application/json"
+            $message = Get-localGroup | convertto-json -depth 1
+        }
+    Elseif ($request.Url -match '/auth')
+        {
+            # use a StreamReader to read the HTTP body as a string
+            $requestBodyReader = New-Object System.IO.StreamReader $context.Request.InputStream
+            write-host $requestBodyReader.ReadToEnd() | convertto-json
 
-            [byte[]]$buffer = [System.Text.Encoding]::UTF8.GetBytes($message)
-            $response.ContentLength64 = $buffer.length
-            $output = $response.OutputStream
-            $output.Write($buffer, 0, $buffer.length)
-            $output.Close()
+            write-host ("[" + $request.Url + "]")
+            $context.Response.StatusCode = 200
+            $context.Response.ContentType = "application/json"
+            $message = @{res = "OK"} | convertto-json -compress
+        }
+    Else
+        {
+            Write-host
+            $context.Response.StatusCode = 200
+        }
 
-    }  
+    [byte[]]$buffer = [System.Text.Encoding]::UTF8.GetBytes($message)
+    $response.ContentLength64 = $buffer.length
+    $output = $response.OutputStream
+    $output.Write($buffer, 0, $buffer.length)
+    $output.Close()
+
+}  
 
 
 $context = $listener.BeginGetContext((New-ScriptBlockCallback -Callback $requestListener), $listener)

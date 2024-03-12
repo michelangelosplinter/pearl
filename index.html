@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pearl</title>
+    <title>Pearl - Tool to Scan Your Domain</title>
     <link rel="icon" type="images/x-icon" href="Resources/icon_title.png" />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 </head>
+
 <body>
     <form action="" id="LoginForm">
         <div class="logocontainer">
             <image id="logoimage" src="Resources/icon_title.png" alt="Pearl" height="170px">
-            <p class="logo"><Span style="color:rgb(255, 255, 255);">Pe</Span>arl</p>
+                <p class="logo"><Span style="color:rgb(255, 255, 255);">Pe</Span>arl</p>
         </div>
         <div id="maincontainer" class="maincontainer">
             <p type="text" id="errmsg" class="error-message"></p>
-            <div class="inputcontrol"> 
+            <div class="inputcontrol">
                 <input type="text" id="domain" class="to-disappear" maxlength="128" placeholder="Your Domain" />
                 <input type="text" id="dns" class="to-disappear" maxlength="128" placeholder="Your DNS Server" />
                 <input type="text" id="username" class="to-disappear" maxlength="128" placeholder="User Name" />
@@ -24,8 +28,9 @@
                 <input type="submit" id="button" class="to-disappear" value="Enumerate"></input>
             </div>
         </div>
-        
+
     </form>
     <script src="authenticator.js"></script>
 </body>
+
 </html>
