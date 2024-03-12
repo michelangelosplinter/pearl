@@ -12,4 +12,6 @@ Pearl is a Powershell X Javascript based Domain Enumerator that presents the gat
 
 The entire back-end of the web page is a powershell server named "psServer.ps1". It imports the "Microsoft Active Directory Management" module locally through the path "C:\Windows\Microsoft.NET\assembly\GAC_64\Microsoft.ActiveDirectory.Management". Usualy, downloading and importing the module requires administrative privelleges but doing it through the path doesn't. The server utilizes the functions in the dll to enumerate the domain using privileges of a user who's credentials are given by the person using the tool.
 
+<ben><br>
+
 **<h2>The connection between Front and Back ends</h2>**
