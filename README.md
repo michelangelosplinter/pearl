@@ -6,7 +6,7 @@ Pearl is a Powershell X Javascript based Domain Enumerator that presents the gat
 
 <ben><br>
 
-**<h2>Powershell Part</h2>**
+**<h2>Powershell Back-End</h2>**
 
 <img width=100 align=right src="https://github.com/michelangelosplinter/pearl/assets/143991999/def1afff-50b1-4d37-8d3c-ee5c0281211e">
 
@@ -15,3 +15,14 @@ The entire back-end of the web page is a powershell server named "psServer.ps1".
 <ben><br>
 
 **<h2>The connection between Front and Back ends</h2>**
+
+<img width=100 align=right src="https://github.com/michelangelosplinter/pearl/assets/143991999/92a9c0ce-dd6e-4590-81ce-f8e305ec9b97">
+
+The front-end and the back-end talk using an implementation of Rest API (or restful api). The front-end (the client) creates an http request to the back-end (server) with a spesific URL that contains the specific action the client wants the server to do (similarly to the way you would call a function). The back-end (the server) does what it was requested to do, converts the data to json and sends it back to the client.
+
+<ben><br>
+
+**<h2>Javascript Front-End</h2>**
+
+<img width=100 align="right" src="https://github.com/michelangelosplinter/pearl/assets/143991999/f3938da8-75c0-4178-b595-f39be213fd25">
+>
